@@ -1,22 +1,23 @@
-  import React from 'react';
-  import ReactDOM from 'react-dom';
-  import './index.css';
-  import App from './App';
-  import registerServiceWorker from './registerServiceWorker';
-  import { createStore, combineReducers } from 'redux';
-  import { Provider } from 'react-redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
 
-  const Reducers = combineReducers({
-       trendings: () => ({ hashtags: [['#OneBitCode', '10k'], ['#RubyOnRails', '10k']] })
-      });
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import TrendingTopicsReducer from './containers/TrendingTopicsContainer/reducer.js';
 
-  const Store = createStore(Reducers);
+const Reducers = combineReducers({
+  trendings: TrendingTopicsReducer
+});
 
-  ReactDOM.render(
-       <Provider store={Store}>
-         <App/>
-       </Provider>
-       , document.getElementById('root')
-     );
+const Store = createStore(Reducers);
 
- registerServiceWorker();
+
+ReactDOM.render(
+  <Provider store={Store}>
+  <App/>
+  </Provider>
+  , document.getElementById('root'));
+registerServiceWorker();
