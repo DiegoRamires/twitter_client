@@ -1,28 +1,37 @@
 import React, { Component } from 'react';
 import TrendingTopics from '../../components/TrendingTopics'
+import axios from 'axios';
 
 class TrendingTopicsContainer extends Component {
-   constructor(props) {
-     super(props);
+  constructor(props) {
+    super(props);
 
-     this.state = {
-       hashtags: []
-     };
-   }
+    this.state = {
+      hashtags: [],
+    };
+  }
 
- componentDidMount() {
-   this.setState({
-     hashtags: [['#React', '10k'], ['#RubyOnRails', '10k']]
-   })
- }
-
- render() {
-   return (
-     <div>
-       <TrendingTopics hashtags={this.state.hashtags} />
-     </div>
-   );
- }
+  componentDidMount() {
+    axios.get(process.env.REACT_APP_API + '/trending')
+      .then((response)=>{
+        console.log(response.data.hashtags);
+        this.setState(()=>{
+          return {
+            hashtags: response.data.hashtags
+          }
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  render() {
+    return (
+      <div>
+      <TrendingTopics hashtags={this.state.hashtags} />
+      </div>
+    );
+  }
 }
 
 export default TrendingTopicsContainer;
