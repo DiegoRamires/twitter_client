@@ -1,9 +1,9 @@
 import API from '../../api.js';
 import { push } from 'react-router-redux';
-import { UPDATE_CURRENT_USER } from './constants';
+import { UPDATE_CURRENT_USER, REMOVE_CURRENT_USER } from './constants';
 
 export function getCurrentUser() {
-  const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('jwt') };
+  const headers =  { 'Authorization': 'Bearer ' + localStorage.getItem('jwt') };
   const request = API.get('/users/current', {headers: headers});
 
   return (dispatch) => {
@@ -16,5 +16,14 @@ export function getCurrentUser() {
         console.log('LogOut')
       }
     );
+  };
+}
+
+export function logOut() {
+  localStorage.removeItem('jwt');
+
+  return (dispatch) => {
+    dispatch({ type: REMOVE_CURRENT_USER })
+    dispatch(push('/'));
   };
 }
